@@ -12,4 +12,9 @@
     <color name="dot_inactive">#FF6B6B6B</color>
     <color name="card_background">#FFFFFFFF</color>
     <color name="screen_background">#FFF7F5FC</color>
+    <color name="field_border">#FF79747E</color>
+    <color name="field_border_focused">#FF6A3CBC</color>
+    <color name="text_hint">#FF49454F</color>
+    <color name="text_subtitle">#FF757575</color>
+    <color name="text_body">#FF1C1B1F</color>
 </resources>
