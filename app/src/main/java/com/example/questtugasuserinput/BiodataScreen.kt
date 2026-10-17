@@ -17,15 +17,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -70,6 +72,9 @@ fun BiodataScreen() {
     var email by rememberSaveable { mutableStateOf("") }
     var birthDate by rememberSaveable { mutableStateOf("") }
     var experience by rememberSaveable { mutableStateOf("") }
+    var skillAndroid by rememberSaveable { mutableStateOf(false) }
+    var skillUiUx by rememberSaveable { mutableStateOf(false) }
+    var skillWeb by rememberSaveable { mutableStateOf(false) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
@@ -212,6 +217,26 @@ fun BiodataScreen() {
                             modifier = Modifier.weight(1f)
                         )
                     }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.section_gap)))
+
+                    // Skill
+                    Text(
+                        text = stringResource(R.string.label_skills),
+                        color = colorResource(R.color.text_body),
+                        fontSize = textSize(R.dimen.text_label),
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.skill_gap)))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SkillCheckbox(stringResource(R.string.skill_android), skillAndroid) { skillAndroid = it }
+                        SkillCheckbox(stringResource(R.string.skill_uiux), skillUiUx) { skillUiUx = it }
+                        SkillCheckbox(stringResource(R.string.skill_web), skillWeb) { skillWeb = it }
+                    }
                 }
             }
         }
@@ -343,6 +368,29 @@ private fun ExperienceDropdown(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun SkillCheckbox(
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(
+                checkedColor = colorResource(R.color.purple_primary),
+                uncheckedColor = colorResource(R.color.field_border)
+            )
+        )
+        Text(
+            text = label,
+            color = colorResource(R.color.text_body),
+            fontSize = textSize(R.dimen.text_skill)
+        )
     }
 }
 
