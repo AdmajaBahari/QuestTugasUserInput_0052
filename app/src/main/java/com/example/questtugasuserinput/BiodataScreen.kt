@@ -15,9 +15,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -37,6 +44,9 @@ private fun textSize(@DimenRes id: Int) = dimensionResource(id).value.sp
 
 @Composable
 fun BiodataScreen() {
+    var firstName by rememberSaveable { mutableStateOf("") }
+    var lastName by rememberSaveable { mutableStateOf("") }
+
     Scaffold(
         containerColor = colorResource(R.color.screen_background)
     ) { innerPadding ->
@@ -110,6 +120,26 @@ fun BiodataScreen() {
                         fontSize = textSize(R.dimen.text_subtitle),
                         textAlign = TextAlign.Center
                     )
+                    Spacer(Modifier.height(dimensionResource(R.dimen.section_gap)))
+
+                    // Nama depan & belakang
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.field_gap))
+                    ) {
+                        FormField(
+                            value = firstName,
+                            onValueChange = { firstName = it },
+                            hint = stringResource(R.string.hint_first_name),
+                            modifier = Modifier.weight(1f)
+                        )
+                        FormField(
+                            value = lastName,
+                            onValueChange = { lastName = it },
+                            hint = stringResource(R.string.hint_last_name),
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
@@ -128,6 +158,38 @@ private fun Dot(active: Boolean) {
             )
     )
 }
+
+@Composable
+private fun FormField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    hint: String,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        placeholder = {
+            Text(text = hint, fontSize = textSize(R.dimen.text_field))
+        },
+        textStyle = LocalTextStyle.current.copy(fontSize = textSize(R.dimen.text_field)),
+        shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner)),
+        colors = fieldColors(),
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun fieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedBorderColor = colorResource(R.color.field_border_focused),
+    unfocusedBorderColor = colorResource(R.color.field_border),
+    focusedPlaceholderColor = colorResource(R.color.text_hint),
+    unfocusedPlaceholderColor = colorResource(R.color.text_hint),
+    focusedTextColor = colorResource(R.color.text_body),
+    unfocusedTextColor = colorResource(R.color.text_body),
+    cursorColor = colorResource(R.color.purple_primary)
+)
 
 @Preview(showBackground = true)
 @Composable
