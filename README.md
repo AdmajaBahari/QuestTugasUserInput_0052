@@ -31,7 +31,23 @@ Aplikasi Form Biodata yang menerima input pengguna berupa nama depan, nama belak
 
 ## Hasil Running
 
-_Screenshot akan ditambahkan setelah aplikasi selesai._
+### Form kosong
+
+Tombol Proceed nonaktif (abu-abu) selama form belum lengkap.
+
+![Form kosong](screenshots/form_kosong.png)
+
+### Form terisi
+
+Tombol Proceed aktif (ungu) setelah semua field terisi dan minimal satu skill dipilih.
+
+![Form terisi](screenshots/form_terisi.png)
+
+### Dialog hasil
+
+Dialog menampilkan data yang diinput setelah tombol Proceed ditekan.
+
+![Dialog hasil](screenshots/dialog_hasil.png)
 
 ## Identitas
 
