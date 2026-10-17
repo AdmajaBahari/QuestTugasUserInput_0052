@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DatePicker
@@ -76,6 +78,10 @@ fun BiodataScreen() {
     var skillUiUx by rememberSaveable { mutableStateOf(false) }
     var skillWeb by rememberSaveable { mutableStateOf(false) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
+
+    val isFormValid = firstName.isNotBlank() && lastName.isNotBlank() &&
+            email.isNotBlank() && birthDate.isNotBlank() && experience.isNotBlank() &&
+            (skillAndroid || skillUiUx || skillWeb)
 
     Scaffold(
         containerColor = colorResource(R.color.screen_background)
@@ -236,6 +242,29 @@ fun BiodataScreen() {
                         SkillCheckbox(stringResource(R.string.skill_android), skillAndroid) { skillAndroid = it }
                         SkillCheckbox(stringResource(R.string.skill_uiux), skillUiUx) { skillUiUx = it }
                         SkillCheckbox(stringResource(R.string.skill_web), skillWeb) { skillWeb = it }
+                    }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.section_gap)))
+
+                    // Tombol Proceed (aksi diisi di langkah berikutnya)
+                    Button(
+                        onClick = { },
+                        enabled = isFormValid,
+                        shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner)),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.purple_primary),
+                            contentColor = colorResource(R.color.button_content),
+                            disabledContainerColor = colorResource(R.color.button_disabled_container),
+                            disabledContentColor = colorResource(R.color.button_disabled_content)
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(dimensionResource(R.dimen.button_height))
+                    ) {
+                        Text(
+                            text = stringResource(R.string.btn_proceed),
+                            fontSize = textSize(R.dimen.text_button),
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
