@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_image_height">300dp</dimen>
+    <dimen name="card_corner">32dp</dimen>
+    <dimen name="card_elevation">12dp</dimen>
+    <dimen name="card_padding_horizontal">24dp</dimen>
+    <dimen name="card_padding_top">28dp</dimen>
+    <dimen name="card_padding_bottom">32dp</dimen>
+    <dimen name="card_bottom_gap">64dp</dimen>
+</resources>
