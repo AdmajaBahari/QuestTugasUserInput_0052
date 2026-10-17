@@ -14,9 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -78,6 +81,7 @@ fun BiodataScreen() {
     var skillUiUx by rememberSaveable { mutableStateOf(false) }
     var skillWeb by rememberSaveable { mutableStateOf(false) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
+    var showResult by rememberSaveable { mutableStateOf(false) }
 
     val isFormValid = firstName.isNotBlank() && lastName.isNotBlank() &&
             email.isNotBlank() && birthDate.isNotBlank() && experience.isNotBlank() &&
@@ -135,6 +139,7 @@ fun BiodataScreen() {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
                         .padding(
                             start = dimensionResource(R.dimen.card_padding_horizontal),
                             end = dimensionResource(R.dimen.card_padding_horizontal),
@@ -245,9 +250,9 @@ fun BiodataScreen() {
                     }
                     Spacer(Modifier.height(dimensionResource(R.dimen.section_gap)))
 
-                    // Tombol Proceed (aksi diisi di langkah berikutnya)
+                    // Tombol Proceed
                     Button(
-                        onClick = { },
+                        onClick = { showResult = true },
                         enabled = isFormValid,
                         shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner)),
                         colors = ButtonDefaults.buttonColors(
@@ -295,6 +300,34 @@ fun BiodataScreen() {
         ) {
             DatePicker(state = datePickerState)
         }
+    }
+
+    // Dialog hasil input
+    if (showResult) {
+        val skills = buildList {
+            if (skillAndroid) add(stringResource(R.string.skill_android))
+            if (skillUiUx) add(stringResource(R.string.skill_uiux))
+            if (skillWeb) add(stringResource(R.string.skill_web))
+        }.joinToString(stringResource(R.string.skill_separator))
+
+        AlertDialog(
+            onDismissRequest = { showResult = false },
+            title = { Text(stringResource(R.string.dialog_title)) },
+            text = {
+                Column {
+                    Text(stringResource(R.string.dialog_name, firstName, lastName))
+                    Text(stringResource(R.string.dialog_email, email))
+                    Text(stringResource(R.string.dialog_birth, birthDate))
+                    Text(stringResource(R.string.dialog_experience, experience))
+                    Text(stringResource(R.string.dialog_skills, skills))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showResult = false }) {
+                    Text(stringResource(R.string.dialog_close))
+                }
+            }
+        )
     }
 }
 
