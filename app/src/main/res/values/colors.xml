@@ -20,4 +20,5 @@
     <color name="button_content">#FFFFFFFF</color>
     <color name="button_disabled_container">#FFE0E0E0</color>
     <color name="button_disabled_content">#FFFFFFFF</color>
+    <color name="header_background">#FF1C1B2B</color>
 </resources>

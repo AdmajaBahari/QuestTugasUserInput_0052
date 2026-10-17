@@ -27,4 +27,6 @@
     <dimen name="text_label">14sp</dimen>
     <dimen name="text_skill">12sp</dimen>
     <dimen name="text_button">14sp</dimen>
+
+    <dimen name="card_overlap">24dp</dimen>
 </resources>

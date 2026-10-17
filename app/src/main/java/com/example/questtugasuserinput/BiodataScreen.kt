@@ -65,6 +65,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import androidx.compose.foundation.layout.offset
 
 @Composable
 private fun textSize(@DimenRes id: Int) = dimensionResource(id).value.sp
@@ -90,43 +91,40 @@ fun BiodataScreen() {
     Scaffold(
         containerColor = colorResource(R.color.screen_background)
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Header image
-            Image(
-                painter = painterResource(R.drawable.bg_spider_neon),
-                contentDescription = stringResource(R.string.cd_background),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(R.dimen.header_image_height))
-            )
+            // Header image + dot indicator
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Image(
+                    painter = painterResource(R.drawable.bg_spider_neon),
+                    contentDescription = stringResource(R.string.cd_background),
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            // Page indicator dots
-            Row(
-                modifier = Modifier
-                    .padding(
-                        top = dimensionResource(R.dimen.dot_padding_top),
-                        start = dimensionResource(R.dimen.dot_padding_start)
-                    ),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dot_gap))
-            ) {
-                Dot(active = true)
-                Dot(active = false)
-                Dot(active = false)
-                Dot(active = false)
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            top = dimensionResource(R.dimen.dot_padding_top),
+                            start = dimensionResource(R.dimen.dot_padding_start)
+                        ),
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dot_gap))
+                ) {
+                    Dot(active = true)
+                    Dot(active = false)
+                    Dot(active = false)
+                    Dot(active = false)
+                }
             }
 
             // Box yang mengapung di atas Scaffold
             Box(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .padding(top = dimensionResource(R.dimen.header_image_height) / 2)
-                    .padding(bottom = dimensionResource(R.dimen.card_bottom_gap))
+                    .offset(y = -dimensionResource(R.dimen.card_overlap))
                     .shadow(
                         elevation = dimensionResource(R.dimen.card_elevation),
                         shape = RoundedCornerShape(dimensionResource(R.dimen.card_corner))
