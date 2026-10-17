@@ -17,13 +17,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -33,6 +35,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +46,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -65,6 +69,7 @@ fun BiodataScreen() {
     var lastName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var birthDate by rememberSaveable { mutableStateOf("") }
+    var experience by rememberSaveable { mutableStateOf("") }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
@@ -172,7 +177,7 @@ fun BiodataScreen() {
                     )
                     Spacer(Modifier.height(dimensionResource(R.dimen.field_gap)))
 
-                    // Tgl lahir (kolom kanan diisi dropdown di langkah berikutnya)
+                    // Tgl lahir & experience
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.field_gap))
@@ -186,7 +191,7 @@ fun BiodataScreen() {
                                 readOnly = true,
                                 trailingIcon = {
                                     Icon(
-                                        imageVector = Icons.Default.DateRange,
+                                        painter = painterResource(R.drawable.ic_calendar),
                                         contentDescription = stringResource(R.string.cd_pick_date),
                                         tint = colorResource(R.color.text_hint)
                                     )
@@ -200,7 +205,12 @@ fun BiodataScreen() {
                                     .clickable { showDatePicker = true }
                             )
                         }
-                        Spacer(Modifier.weight(1f))
+
+                        ExperienceDropdown(
+                            selected = experience,
+                            onSelected = { experience = it },
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
             }
@@ -284,6 +294,57 @@ private fun fieldColors() = OutlinedTextFieldDefaults.colors(
     unfocusedTextColor = colorResource(R.color.text_body),
     cursorColor = colorResource(R.color.purple_primary)
 )
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ExperienceDropdown(
+    selected: String,
+    onSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val options = stringArrayResource(R.array.experience_options)
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = selected,
+            onValueChange = {},
+            readOnly = true,
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.hint_experience),
+                    fontSize = textSize(R.dimen.text_field)
+                )
+            },
+            textStyle = LocalTextStyle.current.copy(fontSize = textSize(R.dimen.text_field)),
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner)),
+            colors = fieldColors(),
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth()
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        onSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
