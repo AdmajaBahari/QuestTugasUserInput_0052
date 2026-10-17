@@ -26,4 +26,17 @@
         <item>3 - 5 Tahun</item>
         <item>&gt; 5 Tahun</item>
     </string-array>
+
+    <string name="date_pattern">dd/MM/yyyy</string>
+    <string name="date_picker_ok">OK</string>
+    <string name="date_picker_cancel">Batal</string>
+
+    <string name="dialog_title">Data Biodata</string>
+    <string name="dialog_close">Tutup</string>
+    <string name="dialog_name">Nama: %1$s %2$s</string>
+    <string name="dialog_email">Email: %1$s</string>
+    <string name="dialog_birth">Tgl Lahir: %1$s</string>
+    <string name="dialog_experience">Experience: %1$s</string>
+    <string name="dialog_skills">Skill: %1$s</string>
+    <string name="skill_separator">, </string>
 </resources>
