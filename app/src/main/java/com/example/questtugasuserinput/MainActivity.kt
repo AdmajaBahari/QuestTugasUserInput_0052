@@ -5,11 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -52,8 +57,36 @@ fun BiodataScreen() {
                     .fillMaxWidth()
                     .height(dimensionResource(R.dimen.header_image_height))
             )
+
+            // Page indicator dots
+            Row(
+                modifier = Modifier
+                    .padding(
+                        top = dimensionResource(R.dimen.dot_padding_top),
+                        start = dimensionResource(R.dimen.dot_padding_start)
+                    ),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dot_gap))
+            ) {
+                Dot(active = true)
+                Dot(active = false)
+                Dot(active = false)
+                Dot(active = false)
+            }
         }
     }
+}
+
+@Composable
+private fun Dot(active: Boolean) {
+    Box(
+        modifier = Modifier
+            .size(dimensionResource(R.dimen.dot_size))
+            .background(
+                color = if (active) colorResource(R.color.purple_dot_active)
+                else colorResource(R.color.dot_inactive),
+                shape = CircleShape
+            )
+    )
 }
 
 @Preview(showBackground = true)
