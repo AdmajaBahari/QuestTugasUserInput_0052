@@ -20,4 +20,11 @@
     <dimen name="dot_gap">4dp</dimen>
     <dimen name="dot_padding_top">24dp</dimen>
     <dimen name="dot_padding_start">20dp</dimen>
+
+    <dimen name="text_title">26sp</dimen>
+    <dimen name="text_subtitle">11sp</dimen>
+    <dimen name="text_field">14sp</dimen>
+    <dimen name="text_label">14sp</dimen>
+    <dimen name="text_skill">12sp</dimen>
+    <dimen name="text_button">14sp</dimen>
 </resources>
