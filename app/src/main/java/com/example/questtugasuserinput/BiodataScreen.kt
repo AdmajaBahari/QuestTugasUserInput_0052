@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -46,6 +48,7 @@ private fun textSize(@DimenRes id: Int) = dimensionResource(id).value.sp
 fun BiodataScreen() {
     var firstName by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
 
     Scaffold(
         containerColor = colorResource(R.color.screen_background)
@@ -140,6 +143,16 @@ fun BiodataScreen() {
                             modifier = Modifier.weight(1f)
                         )
                     }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.field_gap)))
+
+                    // Email
+                    FormField(
+                        value = email,
+                        onValueChange = { email = it },
+                        hint = stringResource(R.string.hint_email),
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardType = KeyboardType.Email
+                    )
                 }
             }
         }
@@ -164,7 +177,8 @@ private fun FormField(
     value: String,
     onValueChange: (String) -> Unit,
     hint: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         value = value,
@@ -174,6 +188,7 @@ private fun FormField(
             Text(text = hint, fontSize = textSize(R.dimen.text_field))
         },
         textStyle = LocalTextStyle.current.copy(fontSize = textSize(R.dimen.text_field)),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         shape = RoundedCornerShape(dimensionResource(R.dimen.field_corner)),
         colors = fieldColors(),
         modifier = modifier
