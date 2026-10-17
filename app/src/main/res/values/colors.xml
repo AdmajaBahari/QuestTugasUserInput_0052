@@ -17,4 +17,7 @@
     <color name="text_hint">#FF49454F</color>
     <color name="text_subtitle">#FF757575</color>
     <color name="text_body">#FF1C1B1F</color>
+    <color name="button_content">#FFFFFFFF</color>
+    <color name="button_disabled_container">#FFE0E0E0</color>
+    <color name="button_disabled_content">#FFFFFFFF</color>
 </resources>
